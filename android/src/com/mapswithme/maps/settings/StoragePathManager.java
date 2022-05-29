@@ -207,15 +207,22 @@ public class StoragePathManager
         LOGGER.w(TAG, "Not a directory: " + commentedPath);
         return;
       }
-      if (!dir.canWrite() || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
+      // DEBUG
+      if (!dir.canWrite())
+      {
+        LOGGER.w(TAG, "  canWrite == false: " + commentedPath);
+      }
+      if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
+      {
+        LOGGER.w(TAG, "  mounted readonly: " + commentedPath);
+      }
+      // DEBUG
+
+      // We don't use system dir.canWrite() because it gives false negatives sometimes.
+      if (!StorageUtils.isDirWritable(dir))
       {
         isReadonly = true;
-        LOGGER.w(TAG, "Not writable: " + commentedPath);
-        // Keep using currently configured storage even if its read-only.
-        if (isCurrent)
-          commentedPath += ", read-only";
-        else
-          return;
+        commentedPath = "read-only " + commentedPath;
       }
 
       if (TextUtils.isEmpty(label))

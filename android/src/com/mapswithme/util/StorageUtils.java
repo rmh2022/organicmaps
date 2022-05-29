@@ -49,6 +49,27 @@ public class StorageUtils
     return Environment.MEDIA_MOUNTED.equals(state);
   }
 
+  public static boolean isDirWritable(File dir)
+  {
+    try
+    {
+      if (!dir.isDirectory())
+        return false;
+      File newDir = new File(dir, "om_test_dir");
+      newDir.mkdir();
+      if (!newDir.exists())
+        return false;
+
+      newDir.delete();
+      return true;
+    }
+    catch (Exception e)
+    {
+      LOGGER.e(TAG, "Failed to test directory writability", e);
+      return false;
+    }
+  }
+
   /**
    * Safely returns the external files directory path with the preliminary
    * checking the availability of the mentioned directory
