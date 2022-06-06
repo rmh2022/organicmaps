@@ -1250,12 +1250,6 @@ UNIT_TEST(Trim)
 {
   std::string const kStrWithoutSpaces = "string";
 
-  std::string strWithLeftSpaces = "  " + kStrWithoutSpaces;
-  TEST_EQUAL(strings::TrimLeft(strWithLeftSpaces), kStrWithoutSpaces, ());
-
-  std::string strWithRightSpaces = kStrWithoutSpaces + "  ";
-  TEST_EQUAL(strings::TrimRight(strWithRightSpaces), kStrWithoutSpaces, ());
-
   TestTrim("", "");
   TestTrim("  ", "");
   TestTrim(kStrWithoutSpaces, kStrWithoutSpaces);
